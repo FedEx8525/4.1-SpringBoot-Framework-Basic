@@ -52,6 +52,18 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name").value("Anna"));
     }
 
+    @Test
+    void getUserById_returnsCorrectUser() throws Exception {
+        User user = new User();
+        user.setId(java.util.UUID.randomUUID());
+        user.setName("Marc");
+        user.setEmail("marc@mail.com");
+        UserController.users.add(user);
 
+        mockMvc.perform(get("/users/" + user.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Marc"))
+                .andExpect(jsonPath("$.email").value("marc@mail.com"));
+    }
 
 }
