@@ -2,7 +2,6 @@ package cat.itacademy.s04.t01.userapi.controller;
 
 import cat.itacademy.s04.t01.userapi.entity.User;
 import cat.itacademy.s04.t01.userapi.exception.NotFoundByIdException;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,8 +15,14 @@ public class UserController {
     private static final List<User> users = new ArrayList<User>();
 
     @GetMapping
-    public List<User> getAllUsers(){
-        return users;
+    public List<User> getAllUsers(@RequestParam(required = false) String name){
+        if(name == null || name.isEmpty()) {
+            return users;
+        }
+
+        return users.stream()
+                .filter(user -> user.getName().toLowerCase().contains(name.toLowerCase()))
+                .toList();
     }
 
     @PostMapping
