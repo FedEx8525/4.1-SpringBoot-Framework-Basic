@@ -1,6 +1,8 @@
 package cat.itacademy.s04.t01.userapi.controller;
 
 import cat.itacademy.s04.t01.userapi.entity.User;
+import cat.itacademy.s04.t01.userapi.exception.NotFoundByIdException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,5 +25,13 @@ public class UserController {
         user.setId(UUID.randomUUID());
         users.add(user);
         return user;
+    }
+
+    @GetMapping("/{id}")
+    public User getUserByID(@PathVariable UUID id){
+        return users.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundByIdException("User with id '" + id + "' not found"));
     }
 }
