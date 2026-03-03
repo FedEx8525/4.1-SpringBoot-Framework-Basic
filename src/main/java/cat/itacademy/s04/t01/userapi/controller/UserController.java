@@ -15,7 +15,7 @@ public class UserController {
     private static final List<User> users = new ArrayList<User>();
 
     @GetMapping
-    public List<User> getAllUsers(@RequestParam(required = false) String name){
+    public List<User> getUsers(@RequestParam(required = false) String name){
         if(name == null || name.isEmpty()) {
             return users;
         }
