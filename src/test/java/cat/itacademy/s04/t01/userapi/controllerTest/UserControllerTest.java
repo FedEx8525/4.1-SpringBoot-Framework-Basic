@@ -66,4 +66,11 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.email").value("marc@mail.com"));
     }
 
+    @Test
+    void getUserById_returnNotFoundIfMissing() throws Exception {
+        mockMvc.perform(get("/users/" + java.util.UUID.randomUUID()))
+                .andExpect(status().isNotFound());
+    }
+
+
 }
