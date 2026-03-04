@@ -37,7 +37,9 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public List<User> searchByName(String name) {
-        return List.of();
+        return users.stream()
+                .filter(user -> user.getName().toLowerCase().contains(name.toLowerCase()))
+                .toList();
     }
 
     @Override
