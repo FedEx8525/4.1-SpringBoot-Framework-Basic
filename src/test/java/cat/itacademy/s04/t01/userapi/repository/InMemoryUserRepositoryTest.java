@@ -116,5 +116,24 @@ public class InMemoryUserRepositoryTest {
         assertFalse(exists, "It should return false when email does not exist");
 
     }
+
+    @Test
+    void clear_shouldRemoveAllUsers() {
+        User u1 = new User();
+        User u2 = new User();
+        u1.setName("Ana");
+        u1.setEmail("ana@mail.com");
+        u2.setName("Marc");
+        u2.setEmail("marc@mail.com");
+
+        repository.save(u1);
+        repository.save(u2);
+
+        assertEquals(2, repository.findAll().size());
+
+        repository.clear();
+
+        assertEquals(0, repository.findAll().size(), "The list should be empty after the clear");
+    }
 }
 
