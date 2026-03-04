@@ -19,7 +19,6 @@ public class InMemoryUserRepository implements UserRepository {
         if(user.getId() == null) {
             user.setId(UUID.randomUUID());
         }
-
         users.add(user);
         return user;
     }
@@ -31,11 +30,9 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public Optional<User> findById(UUID id) {
-        users.stream()
+        return users.stream()
                 .filter(user -> user.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundByIdException("User with id '" + id + "' not found"));
-        return Optional.empty();
+                .findFirst();
     }
 
     @Override
