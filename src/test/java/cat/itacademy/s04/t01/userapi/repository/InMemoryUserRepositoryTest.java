@@ -75,5 +75,19 @@ public class InMemoryUserRepositoryTest {
 
         assertTrue(result.isEmpty(), "The Optional should be empty for a not-existent id");
     }
+
+    @Test
+    void searchByName_shouldReturnUser_whenNameMatchesCaseInsensitive() {
+        User user = new User();
+        user.setName("Ana");
+        user.setEmail("ana@mail.com");
+        repository.save(user);
+
+        List<User> result = repository.searchByName("ana");
+
+        assertEquals(1, result.size(), "The list should have 1 user");
+        assertEquals("Ana", result.getFirst().getName(), "The user name should be Ana");
+
+    }
 }
 
