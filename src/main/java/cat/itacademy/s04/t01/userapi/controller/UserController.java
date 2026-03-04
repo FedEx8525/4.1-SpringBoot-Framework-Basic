@@ -12,8 +12,6 @@ import java.util.UUID;
 @RequestMapping("/users")
 public class UserController {
 
-    public static final List<User> users = new ArrayList<User>();
-
     @GetMapping
     public List<User> getUsers(@RequestParam(required = false) String name){
         if(name == null || name.isEmpty()) {
