@@ -62,7 +62,7 @@ public class UserControllerTest {
         user.setId(java.util.UUID.randomUUID());
         user.setName("Marc");
         user.setEmail("marc@mail.com");
-        UserController.users.add(user);
+        userRepository.save(user);
 
         mockMvc.perform(get("/users/" + user.getId()))
                 .andExpect(status().isOk())
@@ -86,8 +86,8 @@ public class UserControllerTest {
         u2.setId(java.util.UUID.randomUUID());
         u2.setName("Carlos");
         u2.setEmail("carlos@mail.com");
-        UserController.users.add(u1);
-        UserController.users.add(u2);
+        userRepository.save(u1);
+        userRepository.save(u2);
 
 
         mockMvc.perform(get("/users").param("name", "maria"))
