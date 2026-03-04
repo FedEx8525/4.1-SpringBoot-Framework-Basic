@@ -1,6 +1,5 @@
-package cat.itacademy.s04.t01.userapi.controllerTest;
+package cat.itacademy.s04.t01.userapi.controller;
 
-import cat.itacademy.s04.t01.userapi.controller.HealthController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
