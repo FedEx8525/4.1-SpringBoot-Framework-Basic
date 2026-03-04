@@ -89,5 +89,18 @@ public class InMemoryUserRepositoryTest {
         assertEquals("Ana", result.getFirst().getName(), "The user name should be Ana");
 
     }
+
+    @Test
+    void existsByEmail_shouldReturnTrue_whenEmailExists() {
+
+        User user = new User();
+        user.setName("Laura");
+        user.setEmail("laura@mail.com");
+        repository.save(user);
+
+        boolean exists = repository.existsByEmail("LauRa@mail.com");
+
+        assertTrue(exists, "It should return true even the email has uppercase letters.");
+    }
 }
 
