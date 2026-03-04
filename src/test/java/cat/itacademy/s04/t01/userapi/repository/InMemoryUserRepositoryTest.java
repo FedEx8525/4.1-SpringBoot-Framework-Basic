@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,7 +50,30 @@ public class InMemoryUserRepositoryTest {
         assertEquals(2, result.size(), "The list should have 2 users");
         assertTrue(result.contains(u1), "The list should contains Ana");
         assertTrue(result.contains(u2), "The list should contains Marc");
+    }
 
+    @Test
+    void findById_shouldReturnUser_whenIdExists() {
+        User user = new User();
+        user.setName("Paul");
+        user.setEmail("paul@mail.com");
+        User savedUser = repository.save(user);
+        UUID id = savedUser.getId();
+
+        Optional<User> result = repository.findById(id);
+
+        assertTrue(result.isPresent(), "The Optional should have 1 user");
+        assertEquals(id, result.get().getId());
+
+    }
+
+    @Test
+    void findById_shouldReturnEmpty_whenIdDoesNotExist() {
+        UUID randomId = UUID.randomUUID();
+
+        Optional<User> result = repository.findById(randomId);
+
+        assertTrue(result.isEmpty(), "The Optional should be empty for a not-existent id");
     }
 }
 
