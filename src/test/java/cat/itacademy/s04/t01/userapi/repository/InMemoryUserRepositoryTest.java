@@ -102,5 +102,19 @@ public class InMemoryUserRepositoryTest {
 
         assertTrue(exists, "It should return true even the email has uppercase letters.");
     }
+
+    @Test
+    void existsByEmail_shouldReturnFalse_whenEmailDoesNotExist() {
+
+        User user = new User();
+        user.setName("Laura");
+        user.setEmail("laura@mail.com");
+        repository.save(user);
+
+        boolean exists = repository.existsByEmail("wrong@mail.com");
+
+        assertFalse(exists, "It should return false when email does not exist");
+
+    }
 }
 
