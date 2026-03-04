@@ -1,7 +1,6 @@
 package cat.itacademy.s04.t01.userapi.repository;
 
 import cat.itacademy.s04.t01.userapi.entity.User;
-import cat.itacademy.s04.t01.userapi.exception.NotFoundByIdException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -46,5 +45,10 @@ public class InMemoryUserRepository implements UserRepository {
     public boolean existsByEmail(String email) {
         return users.stream()
                 .anyMatch(user -> user.getEmail().equalsIgnoreCase(email));
+    }
+
+    @Override
+    public void clear() {
+        users.clear();
     }
 }
