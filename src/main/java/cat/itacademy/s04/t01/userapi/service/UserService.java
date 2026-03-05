@@ -10,6 +10,6 @@ public interface UserService {
 
     List<User> listUsers(String name);
 
-    User getByID(UUID id);
+    User getById(UUID id);
 
 }
