@@ -1,7 +1,7 @@
 package cat.itacademy.s04.t01.userapi.controller;
 
 import cat.itacademy.s04.t01.userapi.entity.User;
-import cat.itacademy.s04.t01.userapi.repository.InMemoryUserRepository;
+import cat.itacademy.s04.t01.userapi.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ public class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private InMemoryUserRepository userRepository;
+    private UserRepository userRepository;
 
     @BeforeEach
     void setup() {
@@ -51,7 +51,7 @@ public class UserControllerTest {
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name").value("Anna"));
     }
