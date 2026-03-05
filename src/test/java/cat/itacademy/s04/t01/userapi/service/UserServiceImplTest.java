@@ -51,7 +51,7 @@ public class UserServiceImplTest {
 
         User result = userService.createUser(user);
 
-        assertNotNull(result);
+        assertNotNull(result.getId());
         verify(userRepository, times(1)).save(any(User.class));
     }
 
