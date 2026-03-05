@@ -1,12 +1,13 @@
-package cat.itacademy.s04.t01.userapi.controllerTest;
+package cat.itacademy.s04.t01.userapi.controller;
 
-import cat.itacademy.s04.t01.userapi.controller.UserController;
 import cat.itacademy.s04.t01.userapi.entity.User;
+import cat.itacademy.s04.t01.userapi.repository.InMemoryUserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,7 +17,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class UserControllerTest {
 
     @Autowired
@@ -25,9 +27,12 @@ public class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private InMemoryUserRepository userRepository;
+
     @BeforeEach
     void setup() {
-        UserController.users.clear();
+        userRepository.clear();
     }
 
     @Test
@@ -57,7 +62,7 @@ public class UserControllerTest {
         user.setId(java.util.UUID.randomUUID());
         user.setName("Marc");
         user.setEmail("marc@mail.com");
-        UserController.users.add(user);
+        userRepository.save(user);
 
         mockMvc.perform(get("/users/" + user.getId()))
                 .andExpect(status().isOk())
@@ -81,8 +86,8 @@ public class UserControllerTest {
         u2.setId(java.util.UUID.randomUUID());
         u2.setName("Carlos");
         u2.setEmail("carlos@mail.com");
-        UserController.users.add(u1);
-        UserController.users.add(u2);
+        userRepository.save(u1);
+        userRepository.save(u2);
 
 
         mockMvc.perform(get("/users").param("name", "maria"))
