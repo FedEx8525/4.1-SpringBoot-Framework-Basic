@@ -22,6 +22,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByEmail(user.getEmail())) {
             throw new EmailAlreadyExistsException("The email already exists");
         }
+        user.setId(UUID.randomUUID());
         return userRepository.save(user);
     }
 
