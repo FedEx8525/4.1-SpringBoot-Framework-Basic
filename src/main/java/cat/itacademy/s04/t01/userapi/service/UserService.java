@@ -12,7 +12,4 @@ public interface UserService {
 
     User getByID(UUID id);
 
-    List<User> searchUsersByName();
-
-    boolean existsByEmail(String email);
 }
