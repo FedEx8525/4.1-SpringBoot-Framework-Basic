@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.time;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -32,6 +34,21 @@ public class UserServiceImplTest {
             userService.createUser(user);
         });
         verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void createUser_shouldSaveUserWhenEmailDoesNotExist() {
+        User user = new User();
+        user.setEmail("new@mail.com");
+
+        when(userRepository.existsByEmail("new@mail.com")).thenReturn(false);
+
+        when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
+
+        User result = userService.createUser(user);
+
+        assertNotNull(result);
+        verify(userRepository, times(1)).save(any(User.class));
     }
 
 
