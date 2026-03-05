@@ -63,5 +63,17 @@ public class UserServiceImplTest {
         verify(userRepository, never()).searchByName(anyString());
     }
 
+    @Test
+    void listUsers_shouldSearchByName_whenNameIsProvided() {
+
+        String name = "Ana";
+        when(userRepository.searchByName(name)).thenReturn(List.of(new User()));
+
+        userService.listUsers(name);
+
+        verify(userRepository, times(1)).searchByName(name);
+        verify(userRepository, never()).findAll();
+    }
+
 
 }
