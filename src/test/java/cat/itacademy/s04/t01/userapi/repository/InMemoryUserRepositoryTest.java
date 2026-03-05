@@ -22,6 +22,7 @@ public class InMemoryUserRepositoryTest {
     @Test
     void save_shouldAddUserToList() {
         User user = new User();
+        user.setId(UUID.randomUUID());
         user.setName("Ana");
         user.setEmail("ana@mail.com");
 
@@ -55,10 +56,12 @@ public class InMemoryUserRepositoryTest {
     @Test
     void findById_shouldReturnUser_whenIdExists() {
         User user = new User();
+        UUID id = UUID.randomUUID(); // <--- GENERA EL ID
+        user.setId(id);
         user.setName("Paul");
         user.setEmail("paul@mail.com");
-        User savedUser = repository.save(user);
-        UUID id = savedUser.getId();
+
+        repository.save(user);
 
         Optional<User> result = repository.findById(id);
 
