@@ -9,7 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.time;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -49,6 +50,17 @@ public class UserServiceImplTest {
 
         assertNotNull(result);
         verify(userRepository, times(1)).save(any(User.class));
+    }
+
+    @Test
+    void listUsers_shouldReturnAll_whenNameIsNull() {
+
+        when(userRepository.findAll()).thenReturn(List.of(new User()));
+
+       userService.listUsers(null);
+
+        verify(userRepository, times(1)).findAll();
+        verify(userRepository, never()).searchByName(anyString());
     }
 
 
