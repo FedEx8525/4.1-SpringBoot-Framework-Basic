@@ -2,6 +2,7 @@ package cat.itacademy.s04.t01.userapi.service;
 
 import cat.itacademy.s04.t01.userapi.entity.User;
 import cat.itacademy.s04.t01.userapi.exception.EmailAlreadyExistsException;
+import cat.itacademy.s04.t01.userapi.exception.NotFoundByIdException;
 import cat.itacademy.s04.t01.userapi.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -73,6 +76,18 @@ public class UserServiceImplTest {
 
         verify(userRepository, times(1)).searchByName(name);
         verify(userRepository, never()).findAll();
+    }
+
+    @Test
+    void getById_shouldThrowException_whenIdDoesNotExist() {
+
+        UUID id = UUID.randomUUID();
+        when(userRepository.findById(id)).thenReturn(Optional.empty());
+
+
+        assertThrows(NotFoundByIdException.class, () -> {
+            userService.getById(id);
+        });
     }
 
 
